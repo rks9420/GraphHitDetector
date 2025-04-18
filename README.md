@@ -94,22 +94,7 @@ lab4_back/
 - Docker 20+
 - PostgreSQL 14+
 
-### Установка
-1. **Бэкенд**
-   ```bash
-   cd lab4_back
-   mvn clean install
-   docker-compose up -d
-   ```
-
-2. **Фронтенд**
-   ```bash
-   cd front
-   npm install
-   npm run dev
-   ```
-
-3. **Доступ**
+### Доступ
     - Фронтенд: `http://localhost:5173`
     - Бэкенд: `http://localhost:8080/your-war-name-1.0-SNAPSHOT/api`
 
