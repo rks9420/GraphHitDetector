@@ -6,11 +6,11 @@ import com.web.lab4_back.exception.UserExistsException;
 import com.web.lab4_back.exception.UserNotFoundException;
 
 public interface AuthService {
-    public String[] signupUser(String username, String password, String email) throws UserExistsException, ServerException, UserNotFoundException;
+    String[] signupUser(String username, String password, String email) throws UserExistsException, ServerException, UserNotFoundException;
 
-    public String[] loginUser(String username, String password)
+    String[] loginUser(String username, String password)
             throws UserNotFoundException, InvalidCredentialsException, ServerException;
 
-    public void logoutUser(String username, String password)
+    void logoutUser(String username, String password)
             throws UserNotFoundException, InvalidCredentialsException, ServerException;
 }

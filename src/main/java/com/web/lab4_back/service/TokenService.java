@@ -10,8 +10,8 @@ public interface TokenService {
 
     boolean validateToken(String token) throws InvalidTokenException, ServerException;
 
-    public String refreshToken(String refreshToken) throws InvalidTokenException, ServerException;
+    String refreshToken(String refreshToken) throws InvalidTokenException, ServerException;
 
-    public Long getUserIdFromToken(String token) throws InvalidTokenException, ServerException;
+    Long getUserIdFromToken(String token) throws InvalidTokenException, ServerException;
 
 }
