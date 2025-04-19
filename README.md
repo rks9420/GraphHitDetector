@@ -86,6 +86,8 @@ lab4_back/
     - Интерактивная координатная плоскость
     - Таблица результатов с фильтрацией
 
+Вот исправленный README.md с учетом ваших требований к WildFly 34.0.1.Final и настройке PostgreSQL:
+
 ## Запуск проекта
 
 ### Требования
@@ -93,10 +95,62 @@ lab4_back/
 - Node.js 16+
 - Docker 20+
 - PostgreSQL 14+
+- WildFly 34.0.1.Final
+
+### Настройка WildFly
+
+1. Установите драйвер PostgreSQL в WildFly:
+   - Создайте директорию: `wildfly-34.0.1.Final/modules/org/postgresql/main`
+   - Поместите в нее файл `module.xml` с содержимым:
+     ```xml
+     <?xml version="1.0" ?>
+     <module xmlns="urn:jboss:module:1.5" name="org.postgresql">
+         <resources>
+             <resource-root path="postgresql-42.7.5.jar"/>
+         </resources>
+         <dependencies>
+             <module name="javax.api"/>
+             <module name="jakarta.transaction.api"/>
+         </dependencies>
+     </module>
+     ```
+   - Загрузите [postgresql-42.7.5.jar](https://jdbc.postgresql.org/download/postgresql-42.7.5.jar) и поместите в ту же директорию
+
+2. Настройте datasource в `standalone.xml`:
+   ```xml
+   <subsystem xmlns="urn:jboss:domain:datasources:7.2">
+       <datasources>
+           <other-data-sources>
+            ...
+           </other-data-sources>
+   
+           <datasource jndi-name="java:/PostgresDS" pool-name="PostgresDS">
+               <connection-url>jdbc:postgresql://localhost:5432/mydatabase</connection-url>
+               <driver-class>org.postgresql.Driver</driver-class>
+               <driver>postgresql</driver>
+               <security user-name="myuser" password="mypassword"/>
+               <validation>
+                   <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+                   <validate-on-match>true</validate-on-match>
+                   <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+               </validation>
+           </datasource>
+           <drivers>
+               <other-drivers>
+               ...
+               </other-drivers>
+   
+               <driver name="postgresql" module="org.postgresql">
+                   <driver-class>org.postgresql.Driver</driver-class>
+               </driver>
+           </drivers>
+       </datasources>
+   </subsystem>
+   ```
 
 ### Доступ
-    - Фронтенд: `http://localhost:5173`
-    - Бэкенд: `http://localhost:8080/your-war-name-1.0-SNAPSHOT/api`
+- Фронтенд: `http://localhost:5173`
+- Бэкенд: `http://localhost:8080/your-war-name-1.0-SNAPSHOT/api`
 
 ## 📝 Лицензия
 Проект распространяется под лицензией MIT.
